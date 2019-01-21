@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Product</h1>
+
+    <table class="table table-hover table-responsive">
+        <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Название</th>
+                <td>{{ product.title }}</td>
+            </tr>
+            <tr>
+                <th>Описание</th>
+                <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+                <th>Цена</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>Наличие</th>
+                <td>{{ product.availability }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+            <a href="{{ path('products_index') }}" class="btn btn-sm btn-default">Back to all</a>
+
+            <a href="{{ path('products_edit', { 'id': product.id }) }}" class="btn btn-sm btn-default">Edit</a>
+
+            <div style="display: inline-block;">
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+            </div>
+
+{% endblock %}

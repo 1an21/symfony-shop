@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 style="display: inline-flex">Manufacturers list</h1>
+    <a href="{{ path('manufacturers_new') }}" class="btn btn-sm btn-primary"
+       style="display: inline-flex;float: right; margin-top: 28px;">Add new manufacturer</a>
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th class="col-sm-1">Id</th>
+                <th class="col-sm-2">Name</th>
+                <th class="col-sm-4">Description</th>
+                <th class="col-sm-3">Logo</th>
+                <th class="col-sm-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for manufacturer in manufacturers %}
+            <tr>
+                <td class="col-sm-1"><a href="{{ path('manufacturers_show', { 'id': manufacturer.id }) }}">{{ manufacturer.id }}</a></td>
+                <td class="col-sm-2 ">{{ manufacturer.name }}</td>
+                <td class="col-sm-4 ">{{ manufacturer.description }}</td>
+                <td class="col-sm-3 "><img  src="{{ asset('images/logo/' ~ manufacturer.getLogo()) }}" style=" width:200px;"></td>
+                <td class="col-sm-2 ">
+                    <a href="{{ path('manufacturers_show', { 'id': manufacturer.id }) }}" class="btn btn-sm btn-info"><em class="fa fa-eye">&nbsp;</em></a>
+                    <a href="{{ path('manufacturers_edit', { 'id': manufacturer.id }) }}" class="btn btn-sm btn-info"><em class="fa fa-pencil"></em></a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

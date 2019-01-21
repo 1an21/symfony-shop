@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Manufacturer</h1>
+
+    <table class="table table-hover table-responsive">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ manufacturer.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ manufacturer.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ manufacturer.description }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ manufacturer.logo }}</td>
+            </tr>
+        </tbody>
+    </table>
+            <a href="{{ path('manufacturers_index') }}" class="btn btn-sm btn-default">Back to the list</a>
+            <a href="{{ path('manufacturers_edit', { 'id': manufacturer.id }) }}" class="btn btn-sm btn-default">Edit</a>
+            <div style="display: inline-block;">
+                {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                {{ form_end(delete_form) }}
+            </div>
+        </li>
+    </ul>
+
+{% endblock %}
