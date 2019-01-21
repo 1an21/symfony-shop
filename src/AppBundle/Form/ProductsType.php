@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Yavin\Symfony\Form\Type\TreeType;
 class ProductsType extends AbstractType
 {
     /**
@@ -39,8 +40,12 @@ class ProductsType extends AbstractType
                 'attr'   =>  array(
                     'class'   => 'display-none')
             ))
-
-        ;
+            ->add('category', TreeType::class, [
+                'class' => 'AppBundle:Category', // tree class
+                'levelPrefix' => '-',
+                'orderFields' => ['treeLeft' => 'asc'],
+                'prefixAttributeName' => 'data-level-prefix',
+                'treeLevelField' => 'treeLevel',]);
     }/**
      * {@inheritdoc}
      */

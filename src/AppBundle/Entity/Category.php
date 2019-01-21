@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Category
  *
  * @ORM\Table(name="category", indexes={@ORM\Index(name="category", columns={"id"})})
  * @ORM\Entity
+ * @Gedmo\Tree(type="nested")
  */
 class Category
 {
@@ -31,98 +33,142 @@ class Category
     /**
      * @var integer
      *
-     * @ORM\Column(name="level", type="integer", nullable=false)
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="tree_left", type="integer")
      */
-    private $level;
-
+    private $treeLeft;
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_parent", type="integer", nullable=false)
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="tree_level", type="integer")
      */
-    private $isParent;
-
-
-
+    private $treeLevel;
     /**
-     * Get id
+     * @var integer
      *
-     * @return integer
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="tree_right", type="integer")
+     */
+    private $treeRight;
+    /**
+     * @var Category
+     *
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
+     */
+    private $parent;
+    /**
+     * @var Category[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     * @ORM\OrderBy({"treeLeft" = "ASC"})
+     */
+    private $children;
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+    public function __toString()
+    {
+        return $this->name;
+    }
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    /**
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
-
     /**
-     * Set name
-     *
+     * @param int $level
+     */
+    public function setTreeLevel($level)
+    {
+        $this->treeLevel = $level;
+    }
+    /**
+     * @return int
+     */
+    public function getTreeLevel()
+    {
+        return $this->treeLevel;
+    }
+    /**
      * @param string $name
-     *
-     * @return Category
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
-
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
     {
         return $this->name;
     }
-
     /**
-     * Set level
-     *
-     * @param integer $level
-     *
+     * @param Category $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+    /**
      * @return Category
      */
-    public function setLevel($level)
+    public function getParent()
     {
-        $this->level = $level;
-
-        return $this;
+        return $this->parent;
     }
-
     /**
-     * Get level
-     *
-     * @return integer
+     * @param int $treeLeft
      */
-    public function getLevel()
+    public function setTreeLeft($treeLeft)
     {
-        return $this->level;
+        $this->treeLeft = $treeLeft;
     }
-
     /**
-     * Set isParent
-     *
-     * @param integer $isParent
-     *
-     * @return Category
+     * @return int
      */
-    public function setIsParent($isParent)
+    public function getTreeLeft()
     {
-        $this->isParent = $isParent;
-
-        return $this;
+        return $this->treeLeft;
     }
-
     /**
-     * Get isParent
-     *
-     * @return integer
+     * @param int $treeRight
      */
-    public function getIsParent()
+    public function setTreeRight($treeRight)
     {
-        return $this->isParent;
+        $this->treeRight = $treeRight;
+    }
+    /**
+     * @return int
+     */
+    public function getTreeRight()
+    {
+        return $this->treeRight;
+    }
+    /**
+     * @param ArrayCollection $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

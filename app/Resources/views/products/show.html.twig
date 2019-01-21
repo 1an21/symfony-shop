@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Product</h1>
+    <h1>Страница товара</h1>
 
     <table class="table table-hover table-responsive">
         <tbody>
@@ -22,9 +22,22 @@
                 <td>{{ product.price }}</td>
             </tr>
             <tr>
+                <th>Валюта</th>
+                <td>{{ product.currency }}</td>
+            </tr>
+            <tr>
                 <th>Наличие</th>
                 <td>{{ product.availability }}</td>
             </tr>
+            <tr>
+                <th>Категория</th>
+                <td>{{ product.category }}</td>
+            </tr>
+            <tr>
+                <th>Изображения</th>
+                <td>{% for element in product.files %}
+                {% if product.files != null %} <img  src="{{ asset('images/products/' ~ element.file) }}" style=" width:200px;">{% else %} <p>Нет изображения</p>{% endif %}
+            {% endfor %}</td>
         </tbody>
     </table>
 

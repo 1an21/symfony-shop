@@ -93,6 +93,16 @@ class Products
     private $manufacturer;
 
     /**
+     * @var \Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * })
+     */
+    private $category;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Files", cascade={"persist"})
      */
     private $files;
@@ -341,5 +351,29 @@ class Products
     public function getManufacturer()
     {
         return $this->manufacturer;
+    }
+
+    /**
+     * Set Category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Products
+     */
+    public function setCategory(\AppBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get Category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

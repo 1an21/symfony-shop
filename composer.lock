@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c88c8d703ed43e6ff18277ccf06588b9",
+    "content-hash": "07a72b26f90eb356ba769c54cfe8ad4e",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -3915,6 +3915,53 @@
                 "negotiation"
             ],
             "time": "2015-10-01T07:42:40+00:00"
+        },
+        {
+            "name": "yavin/symfony-form-tree",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yavin/symfony-form-tree.git",
+                "reference": "2694a624a1f2eaf44dcee9fe07c89d4cbb14e9c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yavin/symfony-form-tree/zipball/2694a624a1f2eaf44dcee9fe07c89d4cbb14e9c0",
+                "reference": "2694a624a1f2eaf44dcee9fe07c89d4cbb14e9c0",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.0",
+                "doctrine/orm": "~2.0",
+                "gedmo/doctrine-extensions": "~2.1",
+                "php": ">=5.5.9",
+                "symfony/doctrine-bridge": "~3.0",
+                "symfony/form": "~3.0",
+                "symfony/options-resolver": "~3.0",
+                "symfony/property-access": "~3.0"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yavin\\Symfony\\Form\\Type\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yavin",
+                    "email": "yavin.yavin@gmail.com"
+                }
+            ],
+            "description": "create select field with indentation for tree structure",
+            "time": "2016-01-17T10:54:10+00:00"
         },
         {
             "name": "zendframework/zend-code",

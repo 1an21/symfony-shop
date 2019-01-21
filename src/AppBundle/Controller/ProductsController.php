@@ -112,26 +112,24 @@ class ProductsController extends Controller
      */
     public function editAction(Request $request, Products $product)
     {
-        $img=$product->getImage();
-        if($img!==null) {
-            $product->setImage(new File($this->getParameter('product_directory') . '/' . $img));
-        }
+
         $deleteForm = $this->createDeleteForm($product);
         $editForm = $this->createForm('AppBundle\Form\ProductsType', $product);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $file = $product->getImage();
-            if($file !== null) {
-                $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
-                $file->move(
-                    $this->getParameter('product_directory'),
-                    $fileName
-                );
-                $product->setImage($fileName);
-            }
-            else {
-                $product->setImage($img);
+            $attachments = $product->getFiles();
+
+            if ($attachments) {
+                foreach($attachments as $attachment)
+                {
+                    $file = $attachment->getFile();
+                    $filename = md5(uniqid()) . '.' .$file->guessExtension();
+                    $file->move(
+                        $this->getParameter('product_directory'), $filename
+                    );
+                    $attachment->setFile($filename);
+                }
             }
             $product->setDateUpdated(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
@@ -139,7 +137,7 @@ class ProductsController extends Controller
             return $this->redirectToRoute('products_index', array('id' => $product->getId()));
         }
         return $this->render('products/edit.html.twig', [
-            'product' => $product, 'images' => $img,
+            'product' => $product,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
