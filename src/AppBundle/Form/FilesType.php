@@ -15,7 +15,7 @@ class FilesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-            $builder->add('file', FileType::class, array('label' => 'Файл', 'data_class' => null));
+            $builder->add('file', FileType::class, array('label' => 'Файл', 'data_class' => null, 'required' => false));
     }/**
  * {@inheritdoc}
  */

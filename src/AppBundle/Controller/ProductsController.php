@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Products;
+use AppBundle\Entity\Files;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -112,10 +113,11 @@ class ProductsController extends Controller
      */
     public function editAction(Request $request, Products $product)
     {
-
         $deleteForm = $this->createDeleteForm($product);
         $editForm = $this->createForm('AppBundle\Form\ProductsType', $product);
         $editForm->handleRequest($request);
+        $attachments = $product->getFiles();
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $attachments = $product->getFiles();
@@ -124,7 +126,10 @@ class ProductsController extends Controller
                 foreach($attachments as $attachment)
                 {
                     $file = $attachment->getFile();
+
+
                     $filename = md5(uniqid()) . '.' .$file->guessExtension();
+
                     $file->move(
                         $this->getParameter('product_directory'), $filename
                     );
@@ -137,7 +142,7 @@ class ProductsController extends Controller
             return $this->redirectToRoute('products_index', array('id' => $product->getId()));
         }
         return $this->render('products/edit.html.twig', [
-            'product' => $product,
+            'product' => $product, 'files'=>$attachments,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -164,6 +169,22 @@ class ProductsController extends Controller
     }
 
     /**
+     * Delete a image.
+     *
+     * @Route("/news", name="imagess_delete")
+     * @Method("GET")
+     */
+    public function deleteImageAction()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ss = $em->getRepository('AppBundle:Category')->findAll();
+        var_dump($ss);
+        return $this->redirectToRoute('products_index');
+    }
+
+    /**
      * Creates a form to delete a product entity.
      *
      * @param Products $product The product entity
@@ -177,6 +198,19 @@ class ProductsController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     *
+     * @Route("/{id}/q/{name}", name="files_delete")
+     * @Method("GET")
+     */
+    public function deleteFileAction(Request $request,  $name, Products $product)
+    {
+
+        $this->getProductsRepository()->deleteOneImageQuery($name)->getResult();
+
+            return $this->redirectToRoute('products_edit', array('id' => $product->getId()));
     }
 
     private function getProductsRepository()

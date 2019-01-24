@@ -101,21 +101,21 @@ class FilesController extends Controller
     /**
      * Deletes a file entity.
      *
-     * @Route("/{id}", name="files_delete")
-     * @Method("DELETE")
+     * @Route("/{file}", name="files_delete")
+         * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Files $file)
+    public function deleteAction(Request $request, Files $files)
     {
-        $form = $this->createDeleteForm($file);
+        $form = $this->createDeleteForm($files);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($file);
+            $em->remove($files);
             $em->flush();
         }
 
-        return $this->redirectToRoute('files_index');
+        return $this->redirectToRoute('products_index');
     }
 
     /**
@@ -128,7 +128,7 @@ class FilesController extends Controller
     private function createDeleteForm(Files $file)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('files_delete', array('id' => $file->getId())))
+            ->setAction($this->generateUrl('files_delete', array('file' => $file->getFile())))
             ->setMethod('DELETE')
             ->getForm()
         ;

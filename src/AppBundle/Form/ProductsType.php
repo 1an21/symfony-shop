@@ -36,9 +36,7 @@ class ProductsType extends AbstractType
             ->add('files', CollectionType::class,array('label' => 'Файл',
                 'entry_type' => FilesType::class,
                 'allow_add' => true,
-                'by_reference' => false,
-                'attr'   =>  array(
-                    'class'   => 'display-none')
+                'by_reference' => false
             ))
             ->add('category', TreeType::class, [
                 'class' => 'AppBundle:Category', // tree class
