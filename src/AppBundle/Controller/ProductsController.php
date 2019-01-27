@@ -63,14 +63,10 @@ class ProductsController extends Controller
                 foreach($attachments as $attachment)
                 {
                     $file = $attachment->getFile();
-
-                    var_dump($attachment);
                     $filename = md5(uniqid()) . '.' .$file->guessExtension();
-
                     $file->move(
                         $this->getParameter('product_directory'), $filename
                     );
-                    var_dump($filename);
                     $attachment->setFile($filename);
                 }
             }
@@ -116,24 +112,34 @@ class ProductsController extends Controller
         $deleteForm = $this->createDeleteForm($product);
         $editForm = $this->createForm('AppBundle\Form\ProductsType', $product);
         $editForm->handleRequest($request);
-        $attachments = $product->getFiles();
 
+        $oldattachments = $product->getFiles();
+        if($oldattachments !== null) {
+            foreach($oldattachments as $attachment)
+            {
+                $img = $attachment->getFile();
+            $ss=$attachment->setFile(new File($this->getParameter('product_directory').'/'.$img));
+            }
+        }
+        else  $img = null;
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $attachments = $product->getFiles();
-
             if ($attachments) {
                 foreach($attachments as $attachment)
                 {
                     $file = $attachment->getFile();
-
-
                     $filename = md5(uniqid()) . '.' .$file->guessExtension();
 
                     $file->move(
                         $this->getParameter('product_directory'), $filename
                     );
-                    $attachment->setFile($filename);
+                    $img=$attachment->setFile($filename);
+                }
+            }
+            else {
+                foreach ($oldattachments as $img) {
+                    $img;
                 }
             }
             $product->setDateUpdated(new \DateTime());
@@ -142,7 +148,7 @@ class ProductsController extends Controller
             return $this->redirectToRoute('products_index', array('id' => $product->getId()));
         }
         return $this->render('products/edit.html.twig', [
-            'product' => $product, 'files'=>$attachments,
+            'product' => $product, 'files'=>$img,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);

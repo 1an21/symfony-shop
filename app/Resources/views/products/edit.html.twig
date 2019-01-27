@@ -63,7 +63,8 @@
         </div>
     {% for filess in product.files %}
         <div class="col-sm-3">
-            <a href="/products/{{ product.id }}/q/{{ filess.file }}">Удалить</a><img  src="{{ asset('images/products/' ~ filess.file) }}" style=" width:200px;">
+            {{ files }}
+            <a href="/products/{{ product.id }}/q/{{ files }}">Удалить</a><img  src="{{ asset('images/products/' ~ files) }}" style=" width:200px;">
 
         </div>
     {% endfor %}

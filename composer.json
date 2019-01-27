@@ -42,7 +42,8 @@
         "vich/uploader-bundle": "1.6.2",
         "twig/twig": "^2.6",
         "symfony/assetic-bundle": "^2.8",
-        "yavin/symfony-form-tree": "1.0"
+        "yavin/symfony-form-tree": "1.0",
+        "ninsuo/symfony-collection": "^2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

@@ -31,7 +31,9 @@
             </tr>
             <tr>
                 <th>Категория</th>
-                <td>{{ product.category }}</td>
+                {% for cat in product.category %}
+                <td>{{ cat.name }}</td>
+                {% endfor %}
             </tr>
             <tr>
                 <th>Изображения</th>
